@@ -1,4 +1,8 @@
+/* Owen */
+
 body{
+    text-align: center;
+    font-family: arial, sans-serif;
 
 }
 
@@ -7,25 +11,47 @@ body{
 }
 
 #mainContent{
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .game-board{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(80px, 1fr));
+    grid-template-rows: repeat(3, minmax(80px, 1fr));
+    gap: 10px;
+    justify-content: center;
 
+    margin-top: 20px;
 }
 
 .cell{
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    font-size: 36px;
+    aspect-ratio: 1/1;
+    cursor: pointer;
+    user-select: none;
 }
 
 .cell.disabled{
+    pointer-events: none;
+}
 
+.cell:hover:not(.disabled){
+    background-color: #f0f0f0;
 }
 
 #message{
-
+    margin-top: 20px;
+    font-size: 18px;
 }
 
-#reset button{
-    
+#reset {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
 }

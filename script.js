@@ -1,5 +1,3 @@
-// Owen
-
 // Select Elements
 const board = document.getElementById('board');
 const cells = Array.from(document.getElementsByClassName('cell'));

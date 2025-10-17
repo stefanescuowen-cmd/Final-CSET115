@@ -12,14 +12,12 @@ let ties = 0;
 
 
 // Display Scores
-const scoreDisplay = document.getElementById('scoreDisplay')
-scoreDisplay.id = 'scoreDisplay';
+const scoreDisplay = document.getElementById('scoreDisplay');
 scoreDisplay.style.marginTop = '10px';
 scoreDisplay.innerHTML = `Player 1: ${player1Wins} | Player 2: ${player2Wins} | Ties: ${ties}`
-document.getElementById('mainContent').appendChild(scoreDisplay);
 
 
-let currentPlayer = 'X'
+let currentPlayer = 'X';
 let boardState = Array(9).fill('');
 
 
@@ -40,15 +38,21 @@ function handleClick(e){
 
     boardState[index] = currentPlayer;
     e.target.textContent = currentPlayer;
-    e.target.style.color = currentPlayer === 'X' ? '#007bff' : '#e74c3c'
+    e.target.style.color = currentPlayer === 'X' ? '#007bff' : '#e74c3c';
     e.target.classList.add('disabled');
 
+    message.classList.remove('messageX', 'messageO', 'messageTie');
 
     // Check if there is a win or a tie
     if(checkWin(currentPlayer)){
         message.textContent = `Player ${currentPlayer === 'X' ? '1' : 2} Wins!`;
+
+        const msgClass = currentPlayer === 'X' ? 'messageX' : 'messageO';
+        message.classList.add(msgClass);
+
         if(currentPlayer === 'X') player1Wins++; else player2Wins++;
-        updateScore();
+        updateScore(currentPlayer);
+
         disableBoard();
 
         const winningCombo = winCombos.find(combo =>
@@ -57,16 +61,19 @@ function handleClick(e){
         winningCombo.forEach(index => {
             cells[index].classList.add('winner');
         });
+
     } else if(boardState.every(cell => cell !== '')){
         message.textContent = "Tie!";
         ties++;
-        updateScore(); 
+        updateScore('Tie'); 
+
+        message.classList.add('messageTie');
     } else{
+
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
         message.textContent = `Player ${currentPlayer === 'X' ? '1' : '2'}'s Turn`;
     }
 }
-
 
 // Check for the win function
 function checkWin(player){
@@ -81,10 +88,18 @@ function disableBoard(){
 
 
 // Update the score display
-function updateScore(){
+function updateScore(lastWinner = null){
+
+    scoreDisplay.classList.remove('scoreX', 'scoreO', 'scoreTie', 'pop');
+
+    if(lastWinner === 'X') scoreDisplay.classList.add('scoreX');
+    else if(lastWinner === 'O') scoreDisplay.classList.add('scoreO');
+    else if(lastWinner === 'Tie') scoreDisplay.classList.add('scoreTie');
+
     scoreDisplay.innerHTML = `Player 1: ${player1Wins} | Player 2: ${player2Wins} | Ties: ${ties}`;
+
+    void scoreDisplay.offsetWidth;
     scoreDisplay.classList.add('pop');
-    setTimeout(() => scoreDisplay.classList.remove('pop'), 400);
 }
 
 
@@ -98,6 +113,9 @@ function resetGame(){
     });
     currentPlayer = 'X';
     message.textContent = `Player ${currentPlayer === 'X' ? '1' : '2'}'s Turn`;
+    
+    message.classList.remove('messageX', 'messageO', 'messageTie');
+    scoreDisplay.classList.remove('scoreX', 'scoreO', 'scoreTie');
 }
 
 

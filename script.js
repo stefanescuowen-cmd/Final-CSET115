@@ -87,6 +87,12 @@ function disableBoard(){
 }
 
 
+// Helper fuction to help refresh the score display text
+function refreshScoreText(){
+    scoreDisplay.innerHTML = `Player 1: ${player1Wins} | Player 2: ${player2Wins} | Ties: ${ties}`;
+}
+
+
 // Update the score display
 function updateScore(lastWinner = null){
 
@@ -96,7 +102,7 @@ function updateScore(lastWinner = null){
     else if(lastWinner === 'O') scoreDisplay.classList.add('scoreO');
     else if(lastWinner === 'Tie') scoreDisplay.classList.add('scoreTie');
 
-    scoreDisplay.innerHTML = `Player 1: ${player1Wins} | Player 2: ${player2Wins} | Ties: ${ties}`;
+    refreshScoreText();
 
     void scoreDisplay.offsetWidth;
     scoreDisplay.classList.add('pop');
@@ -116,6 +122,8 @@ function resetGame(){
     
     message.classList.remove('messageX', 'messageO', 'messageTie');
     scoreDisplay.classList.remove('scoreX', 'scoreO', 'scoreTie');
+
+    refreshScoreText();
 }
 
 
